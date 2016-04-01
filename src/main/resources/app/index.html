@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Consumer-Producer</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="app.css">
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+   <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript  --> 
+ <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+ 
+</head>
+<body>
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div ng-controller="ConsumerProducerCtrl">
+    <div class="row" >
+    <div class="col s12 m12" >
+        <table class="highlight">
+            <thead>
+                <tr>
+                    <th>id</th>                        
+                    <th>timestamp</th>                        
+                    <th>throttle</th>                        
+                    <th>messageRate (msg/s)</th>                        
+                    <th>generatedMessages</th>                        
+                    <th>sentMessages</th>                        
+                    <th>undeliveredMessages</th>                        
+                </tr>
+            </thead>
+            <tbody class="small-row">
+                <tr>
+                   <td>{{producer.id}}</td>
+                   <td>{{producer.timestamp}}</td>
+                   <td>{{producer.throttle}}</td>
+                   <td>{{producer.messageRate}}</td>
+                   <td>{{producer.generatedMessages}}</td>
+                   <td>{{producer.sentMessages}}</td>
+                   <td>{{producer.undeliveredMessages}}</td>
+                </tr>
+               <tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <form ng-submit="sendThrottle(throttle)"  class="col s6">
+             <div class="row">
+                <div class="input-field my-black col s12">
+                        <input id="throttle" type="text" ng-model="throttle">
+                        <label for="throttle">throttle(msg/s)</label>
+                </div>
+               <div class="col s4 m6">                 
+                 <a class="waves-effect waves-teal btn-flat" ng-click="sendThrottle(throttle)">submit throttle</a>
+               </div>
+            </div>
+            </form>
+            <form class="col s6">
+                <div class="row">
+                    <div class="input-field my-black col s4">
+                         <a class="waves-effect waves-teal btn-flat" ng-click="sendAction('startSending')">start sending</a>
+                    </div>                           
+                    <div class="input-field my-black col s4">
+                         <a class="waves-effect waves-teal btn-flat" ng-click="sendAction('stopSending')">stop sending</a>
+                    </div>                           
+                    <div class="input-field my-black col s4">
+                         <a class="waves-effect waves-teal btn-flat" ng-click="sendAction('clearStats')">clear stats</a>
+                    </div>                           
+                </div>                           
+            </form>
+     </div>            
+      
+  <div class="row" >
+    <div class="col s12 m12" >
+        <table class="highlight">
+            <thead>
+                <tr>
+                    <th>id</th>                        
+                    <th>timestamp</th>                        
+                    <th>messageRate (msg/s)</th>                        
+                    <th>receivedMessages</th>                        
+                </tr>
+            </thead>
+            <tbody class="small-row">
+                <tr ng-repeat="con in consumer">
+                   <td>{{con.id}}</td>
+                   <td>{{con.timestamp}}</td>
+                   <td>{{con.messageRate}}</td>
+                   <td>{{con.receivedMessages}}</td>
+                </tr>
+               <tr>
+            </tbody>
+        </table>
+    </div>
+
+  </div>
+  </div>
+  
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+  <script src="js/vertx-eventbus.js"></script>
+  <script src="js/eventbus-service.js"></script>
+  
+</body>
+</html>
